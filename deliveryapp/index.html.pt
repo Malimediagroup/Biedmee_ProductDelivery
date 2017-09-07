@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Biedmee.be - Levering aanvragen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="forms.css">
+<!--
+    <link rel="stylesheet" href="http://www.biedmee.be/templates/default/css/all.css?v=14" media="screen" />
+-->
+    <style>
+        p, strong, label, li {
+            color: rgb(76, 66, 61);
+        }
+        body {background: rgb(214, 206, 202);}
+        .container {max-width: 750px}
+        h1, h2, h4, h4 a, legend {
+        color: rgb(93, 158, 14) !important;
+        }
+        #bdm-header{
+            width: 100%;
+            background: rgb(255, 255, 255);
+            position: relative;
+            margin: 0 0 4px 0;
+            border-bottom: solid 4px rgb(0, 128, 0);
+        }
+        #bdm-header .bdm-row-zero {
+            width: 100%;
+            min-height: 95px;
+        }
+        #bdm-header .bdm-row-one {
+            width: 100%;
+            height: 30px;
+            background: rgb(209, 237, 155);
+            background: -moz-linear-gradient(top, rgba(209,237,155,1) 0%, rgba(209,237,155,1) 5%, rgba(225,250,161,1) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(209, 237, 155)), color-stop(5%,rgb(209, 237, 155)), color-stop(100%,rgb(225, 250, 161)));
+            background: -webkit-linear-gradient(top, rgb(209, 237, 155) 0%,rgb(209, 237, 155) 5%,rgb(225, 250, 161) 100%);
+            background: -o-linear-gradient(top, rgba(209,237,155,1) 0%,rgba(209,237,155,1) 5%,rgba(225,250,161,1) 100%);
+            background: -ms-linear-gradient(top, rgba(209,237,155,1) 0%,rgba(209,237,155,1) 5%,rgba(225,250,161,1) 100%);
+            background: linear-gradient(to bottom, rgb(209, 237, 155) 0%,rgb(209, 237, 155) 5%,rgb(225, 250, 161) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1ed9b', endColorstr='#e1faa1',GradientType=0 );
+        }
+        #bdm-header .bdm-row-two {
+            width: 100%;
+            height: 30px;
+            overflow: hidden;
+            background: rgb(125, 199, 0);
+            background: -moz-linear-gradient(top, rgba(125,199,0,1) 0%, rgba(93,158,14,1) 66%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(125, 199, 0)), color-stop(66%,rgb(93, 158, 14)));
+            background: -webkit-linear-gradient(top, rgb(125, 199, 0) 0%,rgb(93, 158, 14) 66%);
+            background: -o-linear-gradient(top, rgba(125,199,0,1) 0%,rgba(93,158,14,1) 66%);
+            background: -ms-linear-gradient(top, rgba(125,199,0,1) 0%,rgba(93,158,14,1) 66%);
+            background: linear-gradient(to bottom, rgb(125, 199, 0) 0%,rgb(93, 158, 14) 66%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7dc700', endColorstr='#5d9e0e',GradientType=0 );
+        }
+        #bdm-header .visual {
+          position: absolute;
+          width: 186px;
+          height: 144px;
+          top: 0;
+          left: -47px;
+          background: url(http://static-mmg.s3.eu-central-1.amazonaws.com/a/biedmee/img/bg-flower.png) no-repeat;
+        }
+        .bdm-logo {
+          text-indent: -9999px;
+          overflow: hidden;
+          width: 222px;
+          height: 82px;
+          margin: 8px 0 0 -2px;
+          background: url(http://static-mmg.s3.eu-central-1.amazonaws.com/a/biedmee/img/biedmee_logo_trans_01.png) no-repeat;
+          position: relative;
+          float: left;
+        }
+        #bdm-footer {
+            width: 100%;
+            margin-top: 30px;
+        }
+        #bdm-footer .block-t {
+            padding: 9px 10px 0;
+            overflow: hidden;
+            background: rgb(239, 235, 233);
+        }
+        #bdm-footer .block-b {
+            padding: 13px 10px 0 17px;
+            overflow: hidden;
+            background: rgb(156, 140, 131);
+        }
+        #bdm-footer .title-box strong {
+            font-size: 1.5em;
+        }
+        #bdm-footer .title-box {
+            width: 100%;
+            padding: 0 0 8px;
+        }
+        .block-holder {
+            overflow: hidden;
+            width: 100%;
+            padding: 0 0 5px;
+        }
+        #bdm-footer .bottom {
+            padding: 5px 0 8px;
+            text-align: right;
+            font-size: 11px;
+            line-height: 18px;
+            color: rgb(239, 235, 233);
+            padding: 1px 5px 0 0;
+            display: block;
+            border-top: 1px solid rgb(174, 160, 152);
+        }
+        #bdm-footer .row .ad-box {
+        float: right;
+        }
+        #bdm-footer hr {
+            border: 0;
+            border-bottom: 1px solid rgb(214, 206, 202);
+            margin: 0.4em 0;
+        }
+        #bdm-footer .block-r {
+        float: right;
+        }
+        #bdm-footer .add-nav {
+        margin: 0 -9px 8px 0;
+        padding: 0;
+        list-style: none;
+        float: right;
+        overflow: hidden;
+        }
+        #bdm-footer .add-nav li {
+        float: left;
+        padding: 0 10px 0 12px;
+        font: 11px/15px Arial, Helvetica, sans-serif;
+        }
+        #bdm-footer .block-r .box {
+        float: right;
+        padding: 0 5px 0 0;
+        margin: 0 1px 0 16px;
+        }
+        #bdm-footer .block-r .frame {
+        padding: 4px 0 0 12px;
+        overflow: hidden;
+        height: 33px;
+        background: rgb(239, 235, 233);
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 4px;
+        }
+        #bdm-footer .frame .text {
+        font: bold 14px/30px Arial, Helvetica, sans-serif;
+        color: rgb(100, 85, 76);
+        margin: 0 0 0 3px;
+        float: left;
+        }
+        #bdm-footer .social {
+        overflow: hidden;
+        float: left;
+        margin: 0 7px 0 -5px;
+        padding: 0;
+        list-style: none;
+        }
+        #bdm-footer .social li.label {
+        color: rgb(100, 85, 76);
+        font: bold 12px/24px Arial, Helvetica, sans-serif;
+        margin: 4px 3px 0 8px;
+        }
+        #bdm-footer .social li {
+        overflow: hidden;
+        float: left;
+        }
+        #bdm-footer a, #bdm-footer .block-b strong, #bdm-footer .block-b p {
+            color: rgb(239, 235, 233);
+        }
+        #bdm-footer .ad-box {
+        float: right;
+        padding-right: 30px;
+        }
+        ul {
+            list-style-type: none;
+        }
+        .glyphicon-spin {
+            -webkit-animation: spin 1000ms infinite linear;
+            animation: spin 1000ms infinite linear;
+        }
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(359deg);
+                transform: rotate(359deg);
+            }
+        }
+        @keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(359deg);
+                transform: rotate(359deg);
+            }
+        }
+        form .help-block {
+            font-size: 0.8em;
+        }
+        fieldset {margin-bottom: 1em;}
+        legend > select.input-sm {
+            height: 26px;
+            line-height: 26px;
+            font-size: 11px;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color: rgb(136, 136, 136);
+        }
+        label.radio {margin-left: 20px;}
+    </style>
+    <!-- IE required polyfills, in this exact order -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.26/system-polyfills.js"></script>
+    <script src="https://npmcdn.com/angular2@2.0.0-beta.15/es6/dev/src/testing/shims_for_IE.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.15/angular2-polyfills.min.js"></script>
+<!--
+    <script src="https://code.angularjs.org/2.0.0-beta.15/angular2-polyfills.js"></script>
+-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.26/system.js"></script>
+    <script src="https://npmcdn.com/typescript@1.8.10/lib/typescript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.15/Rx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.15/angular2.dev.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.15/http.dev.js"></script>
+    <script>
+      System.config({
+        transpiler: 'typescript', 
+        typescriptOptions: { emitDecoratorMetadata: true }, 
+        packages: {'app': {defaultExtension: 'ts'}} 
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+
+  <body>
+      
+        
+<div id="main">
+  <div class="main-holder">
+    <div id="content">
+
+    <!-- bdm-header -->
+    <div class="container">
+      
+    <div id="bdm-header">
+      <div class="visual">&nbsp;</div>
+      <div class="bdm-row-zero">
+        <h1 class="bdm-logo"><a href="http://biedmee.be">Biedmee.be</a></h1>
+        <div class="promo-box"></div>
+      </div>
+      <div class="bdm-row-one"></div>
+      <div class="bdm-row-two"></div>
+    </div>
+
+    </div>
+
+      <bdm-header></bdm-header>
+
+    <div class="container" style="min-height: 300px">
+      <delivery-app>
+          Aanvraag formulier laadt... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+          <!-- TBI: ng2 Material spinner -->
+          <md-progress-circle mode="indeterminate"></md-progress-circle>
+      </delivery-app>
+    </div>
+    
+      <bdm-footer></bdm-footer>
+      
+    <!-- footer -->
+    <div class="container">
+      
+    <div id="bdm-footer">
+      <div class="block-t">
+        <div class="title-box">
+          <strong>Biedmee.be</strong>
+        </div>
+        <hr>
+        <div class="bdm-row">
+            <table style="float: left; margin: 0;">
+                <tbody><tr>
+                    <td><p style="font-family: Arial, Helvetica, sans-serif; color: #5d9e0e; font-size: 16px; margin: 0;">Heeft u vragen?</p></td>
+                    <td rowspan="3" style="vertical-align: center;"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/footer-phone-green.png"></td>
+                </tr>
+                <tr>
+                    <td><p style="font-family: Arial, Helvetica, sans-serif; color: #4c423d; font-size: 20px; margin: 0;">BEL ONS: <span property="telephone">+32 (0)78 48 09 00</span></p></td>
+                </tr>
+                <tr>
+                    <td><p style="text-align: right; color: #5d9e0e; margin: 0;">maandag - vrijdag: 9u30 - 17u30</p></td>
+                </tr>
+            </tbody></table>
+          <div class="ad-box">
+            <div class="ad">
+              <a href="http://www.toerismevlaanderen.be/"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/vergund_reisbureau.png" alt="Vergund reisbureau" width="139" height="51"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block-b">
+        <div class="block-holder">
+          <div class="block-r">
+            <div class="box-holder">
+              <ul class="add-nav">
+                <li><a href="http://biedmee.be/sitemap">Sitemap</a></li>
+                <li><a href="http://biedmee.be/disclaimer">Disclaimer</a></li>
+                <li><a href="http://biedmee.be/privacy">Privacy</a></li>
+                <li><a href="http://biedmee.be/algemene-voorwaarden">Algemene voorwaarden</a></li>
+                <li><a href="http://biedmee.be/aanbieders">Aanbieders</a></li>
+                <li><a href="http://biedmee.be/faq">FAQ</a></li>
+                <li><a href="http://biedmee.be/contact">Contact</a></li>
+              </ul>
+            </div>
+            <div class="box-holder">
+              <div class="box">
+                <div class="frame">
+                  <strong class="text">Volg ons ook op:</strong>
+                  <ul class="social">
+                    <li class="label">Twitter</li>
+                    <li><a href="https://twitter.com/biedmeebe" target="_blank"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/icons/social/elegantmedia/twitter.png" alt="" width="27" height="27"></a></li>
+                    <li class="label">Facebook</li>
+                    <li><a href="https://www.facebook.com/BiedMee" target="_blank"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/icons/social/elegantmedia/facebook.png" alt="" width="27" height="27"></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block-l">
+            <strong>International websites Mali Media Group:</strong>
+            <ul class="websites-list">
+              <li><a href="http://www.vakantie.be/" target="_blank"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/icons/flags/14x11/be.gif" alt="flag" width="14" height="11">Vakantie.be</a></li>
+              <li><a href="http://www.biedmee.be/" target="_blank"><img src="http://static-mmg.s3.eu-central-1.amazonaws.com/img/icons/flags/14x11/be.gif" alt="flag" width="14" height="11">Biedmee.be</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="bottom">
+          <p>Biedmee.be is een onderdeel van <a href="http://www.malimedia.be" target="_blank">Mali Media Group BVBA</a></p>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+
+    </div>
+  </div>
+</div>
+
+  </body>
+
+</html>

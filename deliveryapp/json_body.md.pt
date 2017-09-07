@@ -1,0 +1,24 @@
+# Veilingen(en)
+
+<span tal:repeat="auc auctions">
+*Veiling titel*
+    {{ auc.auctionName }}
+*OGM*
+    {{ auc.OGM }}
+</span>
+
+# Adresgegevens
+
+Email       {{ user.emailAddress }}
+
+Naam        {{ user.name }}
+Straat      {{ user.street }}
+Huisnr      {{ user.houseNumber }}
+Bus         {{ user.houseNumberAdd }}
+Postcode    {{ user.postalCode }}
+Gemeente    {{ user.locality }}
+Land        {{ user.country }}
+
+# Opmerkingen
+
+{{ model.extraInfo }}
