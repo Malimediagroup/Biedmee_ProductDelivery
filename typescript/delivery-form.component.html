@@ -1,0 +1,330 @@
+<h2>Product Aanvragen</h2>
+<!-- On init -->
+<div [hidden]="confirmed">
+  
+  <p>Hieronder kan je alle nodige gegevens invullen om de door jou gewonnen veiling(en) te laten leveren. De velden met een sterretje (*) zijn verplicht.</p>
+  <p>Je kan meer dan één gewonnen veiling tegelijk laten leveren. Klik hiervoor op "Veiling toevoegen" om meerdere veilingen te kunnen ingeven.</p>
+  <p><b>Let op</b>: je kan slechts één leveradres ingeven.</p>
+  
+  <form *ngIf="active" (ngSubmit)="onSubmit()" #deliveryForm="ngForm">
+    
+    <fieldset><legend>Veiling gegevens</legend>
+    
+    <div class="" *ngFor="#auc of model.auctions">
+        
+      <div class="row">
+        <div class="col-sm-7">
+          <label for="auctionName">Veiling titel*</label>
+          <input type="text" class="form-control" name="auctionName" placeholder="Veiling titel" minlength="3" required
+            [(ngModel)]="auc.auctionName"
+              ngControl="auctionName"  #auctionName="ngForm" >
+          <div [hidden]="auctionName.valid || auctionName.pristine" class="alert alert-danger" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>Veiling titel is verplicht</div>
+          </div>
+          
+        <div class="col-sm-5">
+          <label for="OGM">Waardebonnummer*</label>
+          <div class="input-group">
+            <span class="input-group-addon">+++</span>
+            <input type="text" class="form-control" name="OGM" placeholder="000000000000" pattern="[0-9\/ ]{12,16}" required
+                   aria-describedby="OGM-help"
+              [(ngModel)]="auc.OGM"
+                ngControl="OGM"  #OGM="ngForm" >
+            <span class="input-group-addon">+++</span>
+          </div>
+          <div [hidden]="OGM.valid || OGM.pristine" class="alert alert-danger" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>Waardebonnummer is verplicht
+          </div>
+          <span id="OGM-help" class="help-block">Enkel de 12 cijfers van je waardebonnummer.</span>
+        </div>
+        
+      </div>
+
+    </div>
+    
+    <button type="button" class="btn btn-xs" (click)="addAuction()">
+        <span class="glyphicon glyphicon-plus"></span>
+        Veiling toevoegen
+    </button>
+    <button *ngIf="model.auctions.length > 1" type="button" class="btn btn-xs pull-right" (click)="removeAuction()">
+        <span class="glyphicon glyphicon-minus"></span>
+        Veiling verwijderen
+    </button>
+    
+    </fieldset>
+    
+    <fieldset><legend>Naam &amp; Leveradres
+        <select class="input-sm col-xs-2 pull-right"
+          [(ngModel)]="model.user.residenceType"
+            ngControl="residenceType" #residenceType="ngForm" >
+          <option *ngFor="#type of residenceTypes" [value]="type.key">{{type.value}}</option>
+        </select>
+      </legend>
+
+    <div class="form-group" *ngIf="model.user.residenceType == 'work'">
+      <label for="company">Bedrijf</label>
+      <input type="text" name="company" class="form-control" placeholder="Bedrijf"
+        [(ngModel)]="model.user.company"
+          ngControl="company" #company="ngForm" >
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="firstName">Voornaam*</label>
+        <input type="text" name="firstName" class="form-control" placeholder="Voornaam" minlength="2" required
+          [(ngModel)]="model.user.firstName"
+            ngControl="firstName"  #firstName="ngForm" >
+        <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Voornaam is verplicht</div>
+      </div>
+      <div class="col-sm-6">
+        <label for="lastName">Familienaam*</label>
+        <input type="text" class="form-control" placeholder="Familienaam" minlength="2" required
+          [(ngModel)]="model.user.lastName"
+            ngControl="lastName"  #lastName="ngForm" >
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Familienaam is verplicht</div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-sm-8">
+        <label for="street">Straat*</label>
+        <input type="text" class="form-control" placeholder="Straat" minlength="2" required
+          [(ngModel)]="model.user.street"
+            ngControl="street"  #street="ngForm" >
+        <div [hidden]="street.valid || street.pristine" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span><span class="sr-only">Error:</span>Straat is verplicht</span>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <label for="houseNumber">Nr*</label>
+        <input type="text" class="form-control" placeholder="1" pattern="[0-9]{0,5}.{0,10}" required
+          [(ngModel)]="model.user.houseNumber"
+            ngControl="houseNumber"  #houseNumber="ngForm" >
+        <div [hidden]="houseNumber.valid || houseNumber.pristine" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Huisnummer is verplicht</div>
+      </div>
+      <div class="col-sm-2">
+        <label for="houseNumberAdd">Bus</label>
+        <input type="text" class="form-control" placeholder="bus" pattern=".{0,10}"
+          [(ngModel)]="model.user.houseNumberAdd"
+            ngControl="houseNumberAdd"  #houseNumberAdd="ngForm" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <label for="postalCode">Postcode*</label>
+        <input type="text" class="form-control" placeholder="Postcode" minlength="4" required
+          [(ngModel)]="model.user.postalCode"
+            ngControl="postalCode"  #postalCode="ngForm" >
+        <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Postcode is verplicht</div>
+      </div>
+      <div class="col-sm-7">
+        <label for="locality">Gemeente*</label>
+        <input type="text" class="form-control" placeholder="Gemeente" minlength="2" required
+          [(ngModel)]="model.user.locality"
+            ngControl="locality"  #locality="ngForm" >
+        <div [hidden]="locality.valid || locality.pristine" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Gemeente is verplicht</div>
+      </div>
+    </div>
+  <!--
+  <div class="row">
+    <label for="country">Land*</label>
+    <select class="form-control" required
+      [(ngModel)]="model.user.country"
+        ngControl="country" #country="ngForm" >
+      <option *ngFor="#p of countries" [value]="p">{{p}}</option>
+    </select>
+    <div [hidden]="country.valid || country.pristine" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Land is verplicht</div>
+  </div>
+  -->
+  <!-- TODO: write web component: https://www.npmjs.com/package/ng-country-select
+       <country-select cs-only="BE, NL"></country-select>
+  -->
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="country">Land*</label>
+        <label class="radio">
+<!--
+          <input type="radio" name="country" [(ngModel)]="model.user.country" value="BE">België
+-->
+          <input #BE name="gender" type="radio" value="BE" checked (click)="model.user.country = BE.value" />België
+        </label>
+        <label class="radio">
+<!--
+          <input type="radio" name="country" [(ngModel)]="model.user.country" value="NL">Nederland
+-->
+          <input #NL name="gender" type="radio" value="NL" (click)="model.user.country = NL.value" />Nederland
+        </label>
+      </div>
+    </div>
+    
+    </fieldset>
+    
+    <fieldset><legend>Je emailadres</legend>
+    <div class="form-group">
+      <label for="emailAddress">Email*</label>
+      <!-- word on the pattern:
+            ^[\s]*?[a-zA-Z0-9\.\*\+\-\/\=\_]+@[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}[\s]*?$
+           by no means "complete", also, allows
+           for spaces at start of end of string as well (but not in the middle):
+           people might copy-paste, have a space in front or at the end
+           and might not realize: nG2 still trims by default anyway (+ on the server) -->
+      <input type="email" class="form-control" placeholder="email@voorbeeld.be" pattern="^[\s]*?[a-zA-Z0-9\.\*\+\-\/\=\_]+@[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}[\s]*?$" required
+        [(ngModel)]="model.user.emailAddress"
+          ngControl="emailAddress"  #emailAddress="ngForm" >
+      <div [hidden]="emailAddress.valid || emailAddress.pristine" class="alert alert-danger" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              Email is verplicht</div>
+    </div>
+    </fieldset>
+    
+    <fieldset><legend>Opmerkingen</legend>
+    <div class="form-group">
+      <textarea class="form-control" placeholder="Opmerkingen"
+        [(ngModel)]="model.extraInfo"
+          ngControl="extraInfo"  #extraInfo="ngForm" ></textarea>
+    </div>
+    </fieldset>
+    
+    <!-- <button type="submit" class="btn btn-default" [disabled]="!deliveryForm.form.valid">Levering bevestigen</button> -->
+    <button type="button" class="btn btn-primary" [disabled]="!deliveryForm.form.valid" (click)="previewDelivery()">Levering aanvragen</button>
+    <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset</button> -->
+
+   <!-- DIAGNOSTICS: TODO: remove in production 
+    <div>
+      <hr>
+      Name via form.controls = {{showFormControls(deliveryForm)}}
+    </div>
+    <div>
+      {{diagnostic}}
+    </div> -->
+
+  </form>
+  
+</div>
+
+<!-- On preview -->
+<div [hidden]="!confirmed">
+    
+  <!-- Before submit: check -->
+  <div [hidden]="submitted" style="margin-bottom: 5px" class="container">
+    <h3>Gegevens bevestigen</h3>
+    <p>Dit zijn de gegevens die je zal doorsturen</p>
+    <p>Als deze gegevens correct zijn, klikt dan op "Levering bevestigen".
+       Je kan steeds terug gaan om je gegevens te wijzigen door op "Wijzigen" te klikken</p>
+       
+    <h4>Veilingen(en)</h4>
+    <div *ngFor="#auc of model.auctions" class="row">
+      <ul class="">
+        <li>
+          <span class="col-xs-3">Veiling titel</span>
+          <span class="col-xs-9">{{ auc.auctionName }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">OGM</span>
+          <span class="col-xs-9 pull-left">{{ auc.OGM }}</span>
+        </li>
+      </ul>
+    </div>
+      
+    <h4>Naam &amp; Adresgegevens</h4>
+    <div class="row">
+      <ul class="">
+        <li *ngIf="model.user.company">
+          <span class="col-xs-3">Bedrijf</span>
+          <span class="col-xs-9 pull-left">{{ model.user.company }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Voornaam</span>
+          <span class="col-xs-9 pull-left">{{ model.user.firstName }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Familienaam</span>
+          <span class="col-xs-9 pull-left">{{ model.user.lastName }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Email</span>
+          <span class="col-xs-9 pull-left">{{ model.user.emailAddress }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Straat</span>
+          <span class="col-xs-9 pull-left">{{ model.user.street }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Huisnr</span>
+          <span class="col-xs-9 pull-left">{{ model.user.houseNumber }}</span>
+        </li>
+        <li *ngIf="model.user.houseNumberAdd">
+          <span class="col-xs-3">Bus</span>
+          <span class="col-xs-9 pull-left">{{ model.user.houseNumberAdd }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Postcode</span>
+          <span class="col-xs-9 pull-left">{{ model.user.postalCode }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Gemeente</span>
+          <span class="col-xs-9 pull-left">{{ model.user.locality }}</span>
+        </li>
+        <li>
+          <span class="col-xs-3">Land</span>
+          <span class="col-xs-9 pull-left">{{ model.user.country }}</span>
+        </li>
+      </ul>
+    </div>
+    
+    <h4>Opmerkingen</h4>
+    <div class="row">
+      <pre>{{ model.extraInfo }}</pre>
+    </div>
+      
+    <hr />
+    
+    <button class="btn btn-primary" (click)="sendDelivery()">Levering bevestigen</button>
+    <button class="btn btn-default" (click)="confirmed=false">Wijzigen</button>
+  
+  </div>
+  
+  <!-- On sent/submit -->
+  <div [hidden]="!submitted">
+    <p *ngIf="!resultMsg && !errorMsg">We verwerken je aanvraag <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></p>
+    <div *ngIf="resultMsg">
+      <h3>Bedankt voor je bestelling!</h3>
+      <p>We hebben je bestelling goed ontvangen.</p>
+      <p>Je ticket nummer voor deze bestelling is: <strong>{{resultMsg.id}}</strong></p>
+      <p>Er wordt een bevestiging van jouw aanvraag verstuurd naar je emailadres ({{ model.user.emailAddress }}).</p>
+    </div>
+    
+    <div class="error" *ngIf="errorMsg">
+      <h3>Oeps...</h3>
+      <p>Er ging blijkbaar iets fout. Neem contact op met <a href="http://www.biedmee.be/contact">Biedmee.be</a>.</p>
+      <pre>{{errorMsg}}</pre>
+    </div>
+
+    <p>Ga verder naar <a href="http://www.biedmee.be/">Biedmee.be</a>.</p>
+    
+  </div>
+  
+</div>

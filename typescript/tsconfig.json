@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "system",
+    "sourceMap": true,
+    "outFile": "bundle.js"
+  }
+}
